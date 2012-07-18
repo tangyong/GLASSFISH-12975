@@ -1,37 +1,54 @@
 package org.glassfish.osgi.felixwebconsoleextension;
 
-import java.security.PrivilegedAction;
-
 import javax.security.auth.Subject;
+import javax.security.auth.login.LoginException;
 
 import org.apache.felix.webconsole.WebConsoleSecurityProvider;
-import com.sun.enterprise.security.auth.login.LoginContextDriver;
-import com.sun.enterprise.security.auth.login.common.PasswordCredential;
-import com.sun.enterprise.security.common.AppservAccessController;
+import org.glassfish.embeddable.GlassFish;
+import org.glassfish.embeddable.GlassFishException;
+import org.glassfish.security.services.api.authentication.AuthenticationService;
+import org.osgi.framework.BundleContext;
 
 public class GlassFishSecurityProvider implements WebConsoleSecurityProvider {
-
-	// Todo: Should get the realm from domain.xml for supporting pluggable
-	// But, seem not that GlassFishSecurityProvider can not get HK2 component
-	// need to consult sahoo.
-	private static String ADMIN_REALM = "admin-realm";
+	
+	private BundleContext ctx;
+	private GlassFish gf;
+	
+	public void setBundleContext(BundleContext context){
+		ctx = context;
+	}
+	
+	 private GlassFish getGlassFish() {
+         GlassFish gf = (GlassFish) ctx.getService(ctx.getServiceReference(GlassFish.class.getName()));
+         try {
+             assert(gf.getStatus() == GlassFish.Status.STARTED);
+         } catch (GlassFishException e) {
+             throw new RuntimeException(e); // TODO(Sahoo): Proper Exception Handling
+         }
+         return gf;
+     }
 
 	@Override
 	public Object authenticate(String username, String password) {
-		final Subject fs = new Subject();
-        final PasswordCredential pc =
-            new PasswordCredential(username, password.toCharArray(), ADMIN_REALM);
-        
-        AppservAccessController.doPrivileged(new PrivilegedAction(){
-            public java.lang.Object run(){
-                fs.getPrivateCredentials().add(pc);
-                return fs;
-            }
-        });
+		gf = getGlassFish();
+		AuthenticationService authService = null;
+		try{
+		    authService = gf.getService(AuthenticationService.class);
+		}catch(GlassFishException gfe){
+			gfe.printStackTrace();
+			return null;
+		}
 
-        LoginContextDriver.login(fs, PasswordCredential.class);
-        
-        return fs;
+        Subject fs = null;
+
+       try {
+    	   fs = authService.login(username, password.toCharArray(), fs);
+        } catch (LoginException e) {			
+          e.printStackTrace();
+          return null;
+        }
+
+          return fs;		
 	}
 
 	@Override

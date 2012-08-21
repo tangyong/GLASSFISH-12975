@@ -49,7 +49,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.felix.webconsole.WebConsoleSecurityProvider2;
-import org.apache.felix.webconsole.internal.servlet.Base64;
 import org.glassfish.embeddable.GlassFish;
 import org.glassfish.embeddable.GlassFishException;
 import org.glassfish.security.services.api.authentication.AuthenticationService;

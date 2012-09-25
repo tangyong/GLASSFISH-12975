@@ -56,13 +56,11 @@ import org.osgi.framework.BundleContext;
 import org.osgi.service.http.HttpContext;
 
 /**
-*
 * This class extends WebConsoleSecurityProvider2 to support the security of Glassfish 
-* OSGi Admin Console.
-* See http://felix.apache.org/site/web-console-security-provider.html#WebConsoleSecurityProvider-WebConsoleSecurityProvider2
-* for more details.
+* OSGi Admin Console.See http://felix.apache.org/site/web-console-security-provider.html#
+* WebConsoleSecurityProvider-WebConsoleSecurityProvider2 for more details.
 *
-* @author tangyong@cn.fujitsu.com
+* @author Tang Yong(tangyong@cn.fujitsu.com)
 */
 public class GlassFishSecurityProvider implements WebConsoleSecurityProvider2 {
 
@@ -87,13 +85,11 @@ public class GlassFishSecurityProvider implements WebConsoleSecurityProvider2 {
 	}
 
 	private GlassFish getGlassFish() {
-		GlassFish gf = (GlassFish) ctx.getService(ctx
-				.getServiceReference(GlassFish.class.getName()));
+		GlassFish gf = (GlassFish) ctx.getService(ctx.getServiceReference(GlassFish.class.getName()));
 		try {
 			assert (gf.getStatus() == GlassFish.Status.STARTED);
 		} catch (GlassFishException e) {
-			throw new RuntimeException(e); // TODO(Sahoo): Proper Exception
-											// Handling
+			throw new RuntimeException(e); // TODO: Proper Exception Handling
 		}
 		return gf;
 	}

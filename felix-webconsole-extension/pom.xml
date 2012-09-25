@@ -70,7 +70,7 @@
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.webconsole</artifactId>
         </dependency>
-        <!-- TangYong Added[Start]. See [Glassfish-12975] -->
+        <!-- TangYong Added. See [Glassfish-12975] -->
         <dependency>
             <groupId>org.glassfish.main.security</groupId>
             <artifactId>security-services</artifactId>
@@ -86,6 +86,6 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>${servlet-api.version}</version>
         </dependency>
-        <!-- TangYong Added[End].-->
+        <!-- TangYong Added.-->
     </dependencies>
 </project>

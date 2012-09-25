@@ -61,6 +61,7 @@ import java.util.logging.Logger;
  * b) Registers configuration object to select the right HttpService.
  *
  * @author sanjeeb.sahoo@oracle.com
+ * @author Tang Yong(tangyong@cn.fujitsu.com)
  */
 public class FelixWebConsoleExtensionActivator implements BundleActivator {
     private Logger logger = Logger.getLogger(getClass().getPackage().getName());
